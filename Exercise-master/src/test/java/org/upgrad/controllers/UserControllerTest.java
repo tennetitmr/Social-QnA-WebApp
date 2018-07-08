@@ -1,47 +1,51 @@
-//package org.upgrad.controllers;
-//
-//import com.google.common.base.Charsets;
-//import com.google.common.hash.Hashing;
-//import org.hamcrest.Matchers;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//
-//import org.mockito.Mockito;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.MediaType;
-//import org.springframework.mock.web.MockHttpSession;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.test.web.servlet.MockMvc;
-//
-//import static java.util.Collections.singletonList;
-//import static org.hamcrest.Matchers.containsString;
-//import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-//import static org.mockito.BDDMockito.given;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-//import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
-//
-//import java.util.List;
-//
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(UserController.class)
-//public class UserControllerTest {
-//
-//    @Autowired
-//    private MockMvc mvc;
-//
-//    @MockBean
-//    private UserService userService;
-//
-//    protected MockHttpSession session;
-//
-//    @MockBean
+package org.upgrad.controllers;
+
+import com.google.common.base.Charsets;
+import com.google.common.hash.Hashing;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.upgrad.models.Notification;
+import org.upgrad.models.User;
+import org.upgrad.services.NotificationService;
+import org.upgrad.services.UserService;
+
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
+
+import java.util.List;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(UserController.class)
+public class UserControllerTest {
+
+    @Autowired
+    private MockMvc mvc;
+
+    @MockBean
+    private UserService userService;
+
+    protected MockHttpSession session;
+
+ //   @MockBean
 //    private UserProfileService userProfileService;
-//
-//    @MockBean
-//    private NotificationService notificationService;
+
+    @MockBean
+    private NotificationService notificationService;
 //
 //
 //    @Test
@@ -264,6 +268,7 @@
 //        User user = new User();
 //        user.setUserName("upgrad");
 //        user.setRole("user");
+//        user.setId ( 2 );
 //        Notification notification = new Notification();
 //        notification.setMessage("A new notification has been added");
 //        notification.setUser(user);
@@ -281,5 +286,5 @@
 //                .andExpect(jsonPath("$[0].message", Matchers.is(notification.getMessage())));
 //    }
 //
-//
-//}
+
+}
