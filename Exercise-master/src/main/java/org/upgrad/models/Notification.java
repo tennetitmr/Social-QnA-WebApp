@@ -1,7 +1,8 @@
 package org.upgrad.models;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -10,20 +11,23 @@ public class Notification {
 
     @Id
     private int id;
-    private int user_id;
     private String message;
     private Date date;
     private boolean read;
 
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
+
     public Notification() { }
 
-    public Notification(int id, int user_id, String message, Date date, boolean read) {
+    public Notification(int id, String message, Date date, boolean read, User user) {
         super();
         this.id = id;
-        this.user_id = user_id;
         this.message = message;
         this.date = date;
         this.read = read;
+        this.user = user;
     }
 
     public int getId() {
@@ -32,14 +36,6 @@ public class Notification {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getUser_id() {
-        return user_id;
-    }
-
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
     }
 
     public String getMessage() {
@@ -65,4 +61,13 @@ public class Notification {
     public void setRead(boolean read) {
         this.read = read;
     }
-}
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+  }
