@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
-import org.upgrad.model.Users;
+import org.upgrad.model.User;
 
 import java.util.Date;
 
 @Repository
-public interface UserRepository extends CrudRepository<Users,Integer> {
+public interface UserRepository extends CrudRepository<User,Integer> {
         @Transactional
         @Modifying
         @Query(nativeQuery = true,value="INSERT INTO users (userName,email,password,role) VALUES (?1,?2,?3,?4)")
@@ -29,4 +29,10 @@ public interface UserRepository extends CrudRepository<Users,Integer> {
 
         @Query(nativeQuery = true,value = "SELECT email from users WHERE UPPER(email) = UPPER(?1)")
         String findUserByEmailId(String email);
+
+        @Query(nativeQuery = true,value = "SELECT password from users WHERE UPPER(userName) = UPPER(?1)")
+        String findUserPasswordByName(String userName);
+
+        @Query(nativeQuery = true,value = "SELECT role from users WHERE UPPER(userName) = UPPER(?1)")
+        String findUserRoleByName(String userName);
 }

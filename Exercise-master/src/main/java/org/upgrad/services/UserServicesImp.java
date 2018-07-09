@@ -41,4 +41,13 @@ public class UserServicesImp implements UserService {
         return mailId;
     }
 
+    @Override
+    public String findUserPassword(String userName) {
+        return userRepository.findUserPasswordByName(userName);
+    }
+
+    @Override
+    public String findUserRole(String userName) {
+        return userRepository.findUserRoleByName(userName);
+    }
 }
