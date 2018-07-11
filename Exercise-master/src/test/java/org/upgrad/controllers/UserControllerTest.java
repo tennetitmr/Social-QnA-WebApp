@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.upgrad.controller.UserController;
 import org.upgrad.model.User;
+import org.upgrad.services.UserProfileService;
 import org.upgrad.services.UserService;
 
 import static java.util.Collections.singletonList;
@@ -40,8 +41,8 @@ public class UserControllerTest {
 
     protected MockHttpSession session;
 
-   // @MockBean
-   // private UserProfileService userProfileService;
+   @MockBean
+   private UserProfileService userProfileService;
 
    // @MockBean
    // private NotificationService notificationService;

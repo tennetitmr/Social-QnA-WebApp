@@ -6,6 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import org.upgrad.model.User;
+import org.upgrad.model.UserProfile;
 
 import java.util.Date;
 
@@ -15,11 +16,6 @@ public interface UserRepository extends CrudRepository<User,Integer> {
         @Modifying
         @Query(nativeQuery = true,value="INSERT INTO users (userName,email,password,role) VALUES (?1,?2,?3,?4)")
         void addUserDetails(String userName, String email, String password, String role);
-
-        @Transactional
-        @Modifying
-        @Query(nativeQuery = true,value="INSERT INTO user_profile (user_id,firstName,lastName,aboutMe,dob,contactNumber,country) VALUES (?1,?2,?3,?4,?5,?6,?7)")
-        void addUserProfileDetails(int user_id, String firstName, String lastName, String aboutMe, Date dob, String contactNumber, String country);
 
         @Query(nativeQuery = true,value="SELECT max(id) FROM users ")
         int findLastAddedUserId();
@@ -35,4 +31,5 @@ public interface UserRepository extends CrudRepository<User,Integer> {
 
         @Query(nativeQuery = true,value = "SELECT role from users WHERE UPPER(userName) = UPPER(?1)")
         String findUserRoleByName(String userName);
+
 }

@@ -5,10 +5,11 @@ import com.google.common.hash.Hashing;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.upgrad.model.User;
+import org.upgrad.model.UserProfile;
+import org.upgrad.repository.UserProfileRepository;
+import org.upgrad.services.UserProfileService;
 import org.upgrad.services.UserService;
 
 import javax.servlet.http.HttpSession;
@@ -21,26 +22,16 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private UserProfileService userProfileService;
 
     @PostMapping("/api/user/signup")
-    public ResponseEntity<?> PostUserSignup(@RequestParam("firstName") String firstName, String lastName, @RequestParam("userName") String userName,
+    public ResponseEntity<?> postUserSignup(@RequestParam("firstName") String firstName, String lastName, @RequestParam("userName") String userName,
                                             @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("country") String country,
                                             String aboutMe, @RequestParam("dob") String dateOfbirth, String contactNumber) {
         String userNameResult = String.valueOf(userService.findUserByUsername(userName));
         String emailResult = String.valueOf(userService.findUserByEmail(email));
         if (!userNameResult.equals(userName) && !emailResult.equals(email)) {
-
-            if (lastName.isEmpty()) {
-            lastName = "";
-            }
-
-            if (aboutMe.isEmpty()) {
-            aboutMe = "";
-            }
-
-            if (contactNumber.isEmpty()) {
-            contactNumber = "";
-            }
 
             String sha256hex = Hashing.sha256()
                     .hashString(password, Charsets.US_ASCII)
@@ -54,7 +45,7 @@ public class UserController {
             }
             userService.addUserDetails(userName,email,sha256hex,"user");
             int id = userService.findUserId();
-            userService.addUserProfileDetails(id,firstName,lastName,aboutMe,dob,contactNumber,country);
+            userProfileService.addUserProfileDetails(id,firstName,lastName,aboutMe,dob,contactNumber,country);
             return new ResponseEntity<>(userName + " successfully registered", HttpStatus.OK);
        }  else if (userNameResult.equals(userName)){
                    return new ResponseEntity<>("Try any other Username, this Username has already been taken.",HttpStatus.FORBIDDEN);
@@ -68,7 +59,7 @@ public class UserController {
     }
 
     @PostMapping("/api/user/login")
-    public ResponseEntity<?> PostUserSignin(@RequestParam("userName") String userName,@RequestParam("password") String password,HttpSession session){
+    public ResponseEntity<?> postUserSignin(@RequestParam("userName") String userName,@RequestParam("password") String password,HttpSession session){
 
         String passwordByUser = String.valueOf(userService.findUserPassword(userName));
         String sha256hex = Hashing.sha256()
@@ -90,10 +81,29 @@ public class UserController {
     }
 
     @PostMapping("/api/user/logout")
-    public ResponseEntity<String> PostUserSignout(HttpSession session){
-        if(session.getAttribute("currUser")==null) return new ResponseEntity<>("You are currently not logged in",HttpStatus.UNAUTHORIZED);
-        else{
+    public ResponseEntity<String> postUserSignout(HttpSession session){
+        if (session.getAttribute("currUser") == null) return new ResponseEntity<>("You are currently not logged in",HttpStatus.UNAUTHORIZED);
+        else {
             session.removeAttribute("currUser");
-            return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);}
+            return new ResponseEntity<>("You have logged out successfully!",HttpStatus.OK);
+        }
+    }
+
+    @GetMapping("/api/user/userprofile/{userId}")
+    public ResponseEntity<?> getUserProfile(@PathVariable("userId") int id, HttpSession session) {
+
+        if (session.getAttribute("currUser") == null) {
+            return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.UNAUTHORIZED);
+        }
+        else {
+
+            if (!String.valueOf(userProfileService.findUserProfileById(id)).equalsIgnoreCase("null")) {
+                return new ResponseEntity<>(userProfileService.getUserProfile(id),HttpStatus.OK);
+            }
+            else {
+                return new ResponseEntity<>("User Profile not found!",HttpStatus.NOT_FOUND);
+            }
+        }
+
     }
 }
