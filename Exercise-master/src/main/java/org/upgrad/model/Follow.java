@@ -11,10 +11,11 @@ public class Follow {
     private int user_id;
     private int category_id;
 
-    public Follow() { }
+    public Follow() {
+    }
 
     public Follow(int id, int user_id, int category_id) {
-        super();
+        super ();
         this.id = id;
         this.user_id = user_id;
         this.category_id = category_id;

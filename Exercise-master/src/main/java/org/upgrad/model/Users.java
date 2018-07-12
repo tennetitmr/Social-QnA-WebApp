@@ -1,7 +1,6 @@
 package org.upgrad.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Users {
@@ -12,11 +11,14 @@ public class Users {
     private String email;
     private String password;
     private String role;
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private Notification notification;
 
-    public Users() {}
+    public Users() {
+    }
 
     public Users(int id, String userName, String email, String password, String role) {
-        super();
+        super ();
         this.id = id;
         this.userName = userName;
         this.email = email;

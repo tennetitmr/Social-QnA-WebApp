@@ -1,7 +1,6 @@
 package org.upgrad.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 
@@ -14,16 +13,27 @@ public class Notification {
     private String message;
     private Date date;
     private boolean read;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private User user;
 
-    public Notification() { }
+    public Notification() {
+    }
 
     public Notification(int id, int user_id, String message, Date date, boolean read) {
-        super();
+        super ();
         this.id = id;
         this.user_id = user_id;
         this.message = message;
         this.date = date;
         this.read = read;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public int getId() {

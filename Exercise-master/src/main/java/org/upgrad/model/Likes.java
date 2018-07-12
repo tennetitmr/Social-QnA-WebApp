@@ -11,10 +11,11 @@ public class Likes {
     private int user_id;
     private int answer_id;
 
-    public Likes() { }
+    public Likes() {
+    }
 
     public Likes(int id, int user_id, int answer_id) {
-        super();
+        super ();
         this.id = id;
         this.user_id = user_id;
         this.answer_id = answer_id;

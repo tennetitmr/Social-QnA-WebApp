@@ -11,10 +11,11 @@ public class Category {
     private String title;
     private String description;
 
-    public Category() {}
+    public Category() {
+    }
 
     public Category(int id, String title, String description) {
-        super();
+        super ();
         this.id = id;
         this.title = title;
         this.description = description;

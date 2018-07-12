@@ -13,7 +13,8 @@ public class Question {
     private Date date;
     private int user_id;
 
-    public Question() {}
+    public Question() {
+    }
 
     public Question(int id, String content, Date date, int user_id) {
         this.id = id;

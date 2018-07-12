@@ -1,8 +1,7 @@
 package org.upgrad.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.Date;
 
 @Entity
@@ -14,14 +13,15 @@ public class UserProfile {
     private String firstName;
     private String lastName;
     private String aboutMe;
-    private Date dob = new Date();
+    private Date dob = new Date ();
     private String contactNumber;
     private String country;
 
-    public UserProfile() {}
+    public UserProfile() {
+    }
 
     public UserProfile(int id, int user_id, String firstName, String lastName, String aboutMe, Date dob, String contactNumber, String country) {
-        super();
+        super ();
         this.id = id;
         this.user_id = user_id;
         this.firstName = firstName;
