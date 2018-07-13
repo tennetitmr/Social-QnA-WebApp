@@ -212,7 +212,7 @@ public class UserControllerTest {
         user.setRole ( "user" );
         Notification notification = new Notification ();
         notification.setMessage ( "A new notification has been added" );
-        notification.setUser ( user );
+       // notification.setUser ( user );
         notification.setId ( 1 );
         notification.setRead ( Boolean.FALSE );
         List <Notification> allNotifications = singletonList ( notification );

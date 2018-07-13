@@ -24,7 +24,7 @@ out
 *.iml
 *.ipr
 *.iws
-*.idea
+.idea
 .gradle
 /.settings
 /.classpath

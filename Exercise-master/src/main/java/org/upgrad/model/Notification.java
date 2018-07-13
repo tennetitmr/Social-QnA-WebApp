@@ -13,8 +13,6 @@ public class Notification {
     private String message;
     private Date date;
     private boolean read;
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private User user;
 
     public Notification() {
     }
@@ -26,14 +24,6 @@ public class Notification {
         this.message = message;
         this.date = date;
         this.read = read;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 
     public int getId() {
