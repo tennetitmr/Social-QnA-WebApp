@@ -173,28 +173,26 @@ private AnswerService answerService;
 //                .andExpect(jsonPath("$", hasSize(1)))
 //                .andExpect(jsonPath("$[0].ans", Matchers.is(answer.getAns())));
 //    }
-//    @Test
-//    public void getAllAnswersByLikesNoAuthentication() throws Exception{
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", null);
-//        String url = "/api/answer/all/likes/3";
-//        mvc.perform(get(url).session(session))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("Please Login first to access this endpoint!")));
-//    }
-//
-//    @Test
-//    public void getAllAnswersByLikesWithoutAuthentication() throws Exception{
-//
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", null);
-//        String url = "/api/answer/all/likes/3";
-//        mvc.perform(get(url).session(session))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(Matchers.containsString("Please Login first to access this endpoint!")));
-//    }
-//
-//
+
+
+    @Test
+    public void getAllAnswersByLikesNoAuthentication() throws Exception {
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", null );
+        String url = "/api/answer/likes/3";
+        mvc.perform ( get ( url ).session ( session ) ).andExpect ( status ().is4xxClientError () ).andExpect ( content ().string ( containsString ( "Please Login first to access this endpoint!" ) ) );
+    }
+
+    @Test
+    public void getAllAnswersByLikesWithoutAuthentication() throws Exception {
+
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", null );
+        String url = "/api/answer/likes/3";
+        mvc.perform ( get ( url ).session ( session ) ).andExpect ( status ().is4xxClientError () ).andExpect ( content ().string ( Matchers.containsString ( "Please Login first to access this endpoint!" ) ) );
+    }
+
+
 //    @Test
 //    public void deleteAnswerWithNoAuthentication() throws Exception {
 //        session = new MockHttpSession();

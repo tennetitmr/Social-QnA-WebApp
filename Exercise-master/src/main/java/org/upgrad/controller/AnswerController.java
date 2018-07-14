@@ -13,8 +13,12 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class AnswerController {
 
+    private final AnswerService answerService;
+
     @Autowired
-    private AnswerService answerService;
+    public AnswerController(AnswerService answerService) {
+        this.answerService = answerService;
+    }
 
     @GetMapping("/api/answer/all/{questionId}")
     public ResponseEntity <?> getAllAnswersToQuestion(@PathVariable("questionId") Integer questionId, HttpSession session) {
@@ -31,19 +35,15 @@ public class AnswerController {
 
     }
 
-   /* @GetMapping("/api/answer/likes/{questionId}")
+    @GetMapping("/api/answer/likes/{questionId}")
     public ResponseEntity <?> getAllAnswersByLikes(@PathVariable("questionId") Integer questionId, HttpSession session) {
 
         if (session.getAttribute ( "currUser" ) == null) {
-
-            return new ResponseEntity <> ( "Please Login first to access this endpoint", HttpStatus.UNAUTHORIZED );
-
+            return new ResponseEntity <> ( "Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED );
         } else {
-
             return new ResponseEntity <> ( answerService.getAllAnswersByLikes ( questionId ), HttpStatus.OK );
-
         }
 
-    }*/
+    }
 
 }
