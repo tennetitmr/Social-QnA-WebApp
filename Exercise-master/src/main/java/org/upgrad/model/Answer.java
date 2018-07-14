@@ -14,6 +14,7 @@ public class Answer {
     private int user_id;
     private int question_id;
     private Date modifiedOn;
+    private User user;
 
     public Answer() {
     }
@@ -73,5 +74,13 @@ public class Answer {
 
     public void setModifiedOn(Date modifiedOn) {
         this.modifiedOn = modifiedOn;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

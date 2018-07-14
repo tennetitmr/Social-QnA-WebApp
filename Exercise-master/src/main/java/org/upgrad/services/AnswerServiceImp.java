@@ -18,4 +18,9 @@ public class AnswerServiceImp implements AnswerService {
     public List <Answer> getAllAnswersByLikes(Integer questionId) {
         return null;
     }
+
+    @Override
+    public Integer findUserIdfromAnswer(Integer answerId) {
+        return null;
+    }
 }

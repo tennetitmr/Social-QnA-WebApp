@@ -3,6 +3,7 @@ package org.upgrad.controllers;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -22,6 +23,7 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -193,47 +195,44 @@ private AnswerService answerService;
     }
 
 
-//    @Test
-//    public void deleteAnswerWithNoAuthentication() throws Exception {
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", null);
-//        String url = "/api/answer/3";
-//        mvc.perform(delete(url).session(session))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(Matchers.containsString("Please Login first to access this endpoint!")));
-//    }
-//    @Test
-//    public void deleteAnswerWithNoAuthorization() throws Exception {
-//        User user = new User();
-//        user.setUserName("upgrad");
-//        user.setRole("user");
-//        user.setId(2);
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", user);
-//        Answer answer = new Answer();
-//        answer.setUser(user);
-//        answer.setId(3);
-//        Mockito.when(answerService.findUserIdfromAnswer(3)).thenReturn(3);
-//        String url = "/api/answer/3";
-//        mvc.perform(delete(url).session(session))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(Matchers.containsString("You do not have rights to delete this answer.")));
-//    }
-//    @Test
-//    public void deleteAnswerWithAuthorization() throws Exception {
-//        User user = new User();
-//        user.setUserName("upgrad");
-//        user.setRole("admin");
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", user);
-//        user.setId(3);
-//        Answer answer = new Answer();
-//        answer.setUser(user);
-//        answer.setId(3);
-//        Mockito.when(answerService.findUserIdfromAnswer(3)).thenReturn(3);
-//        String url = "/api/answer/3";
-//        mvc.perform(delete(url).session(session))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(content().string(Matchers.containsString(" Answer with answerId 3 deleted successfully.")));
-//    }
+    @Test
+    public void deleteAnswerWithNoAuthentication() throws Exception {
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", null );
+        String url = "/api/answer/3";
+        mvc.perform ( delete ( url ).session ( session ) ).andExpect ( status ().is4xxClientError () ).andExpect ( content ().string ( Matchers.containsString ( "Please Login first to access this endpoint!" ) ) );
+    }
+
+
+    @Test
+    public void deleteAnswerWithNoAuthorization() throws Exception {
+        User user = new User ();
+        user.setUserName ( "upgrad" );
+        user.setRole ( "user" );
+        user.setId ( 2 );
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", user );
+        Answer answer = new Answer ();
+        answer.setUser ( user );
+        answer.setId ( 3 );
+        Mockito.when ( answerService.findUserIdfromAnswer ( 3 ) ).thenReturn ( 3 );
+        String url = "/api/answer/3";
+        mvc.perform ( delete ( url ).session ( session ) ).andExpect ( status ().is4xxClientError () ).andExpect ( content ().string ( Matchers.containsString ( "You do not have rights to delete this answer." ) ) );
+    }
+
+    @Test
+    public void deleteAnswerWithAuthorization() throws Exception {
+        User user = new User ();
+        user.setUserName ( "upgrad" );
+        user.setRole ( "admin" );
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", user );
+        user.setId ( 3 );
+        Answer answer = new Answer ();
+        answer.setUser ( user );
+        answer.setId ( 3 );
+        Mockito.when ( answerService.findUserIdfromAnswer ( 3 ) ).thenReturn ( 3 );
+        String url = "/api/answer/3";
+        mvc.perform ( delete ( url ).session ( session ) ).andExpect ( status ().is2xxSuccessful () ).andExpect ( content ().string ( Matchers.containsString ( " Answer with answerId 3 deleted successfully." ) ) );
+    }
 }
