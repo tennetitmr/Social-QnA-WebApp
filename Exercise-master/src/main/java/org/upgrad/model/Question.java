@@ -3,6 +3,7 @@ package org.upgrad.model;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 public class Question {
@@ -12,6 +13,8 @@ public class Question {
     private String content;
     private Date date;
     private int user_id;
+    private User user;
+    private Set <Category> categories;
 
     public Question() {
     }
@@ -53,5 +56,21 @@ public class Question {
 
     public void setUser_id(int user_id) {
         this.user_id = user_id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Set <Category> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(Set <Category> categories) {
+        this.categories = categories;
     }
 }

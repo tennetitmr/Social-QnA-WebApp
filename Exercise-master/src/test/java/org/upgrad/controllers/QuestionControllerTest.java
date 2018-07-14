@@ -1,45 +1,49 @@
-//package org.upgrad.controllers;
-//import org.hamcrest.Matchers;
-//import org.junit.Test;
-//import org.junit.runner.RunWith;
-//import org.mockito.Mockito;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-//import org.springframework.boot.test.mock.mockito.MockBean;
-//import org.springframework.http.MediaType;
-//import org.springframework.mock.web.MockHttpSession;
-//import org.springframework.test.context.junit4.SpringRunner;
-//import org.springframework.test.web.servlet.MockMvc;
-//
-//import java.util.*;
-//import static java.util.Collections.singletonList;
-//import static org.hamcrest.CoreMatchers.containsString;
-//import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
-//import static org.mockito.BDDMockito.given;
-//import static org.mockito.Mockito.mock;
-//import static org.springframework.http.MediaType.APPLICATION_JSON;
-//import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-//import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-//@RunWith(SpringRunner.class)
-//@WebMvcTest(QuestionController.class)
-//public class QuestionControllerTest {
-//    @Autowired
-//    private MockMvc mvc;
-//
-//    protected MockHttpSession session;
-//
-//    @MockBean
-//    private QuestionService questionService;
-//
+package org.upgrad.controllers;
+
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.upgrad.controller.QuestionController;
+import org.upgrad.model.Category;
+import org.upgrad.model.Question;
+import org.upgrad.model.User;
+import org.upgrad.services.QuestionService;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON;
+
+@RunWith(SpringRunner.class)
+@WebMvcTest(QuestionController.class)
+public class QuestionControllerTest {
+    protected MockHttpSession session;
+    @Autowired
+    private MockMvc mvc;
+    @MockBean
+    private QuestionService questionService;
+
 //    @MockBean
 //    private UserService userService;
 //
 //    @MockBean
 //    private FollowService followService;
-//
-//    @Test
+
+    //    @Test
 //    public void addQuestionWithNoAuthentication() throws Exception{
 //        session = new MockHttpSession();
 //        session.setAttribute("currUser", null);
@@ -70,28 +74,25 @@
 //                .andExpect(content().string(containsString("Question added successfully.")));
 //    }
 //
+    @Test
+    public void AllQuestionsByCategoryWthNoAuthentication() throws Exception {
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", null );
+        String categoryId = "3";
+        String url = "/api/question/all/3";
+        mvc.perform ( get ( url ).session ( session ).param ( "categoryId", categoryId ) ).andExpect ( status ().is4xxClientError () ).andExpect ( content ().string ( containsString ( "Please Login first to access this endpoint!" ) ) );
+    }
+
 //    @Test
-//    public void AllQuestionsByCategoryWthNoAuthentication() throws Exception{
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", null);
-//        String categoryId = "3";
-//        String url = "/api/question/all/3";
-//        mvc.perform(get(url).session(session)
-//                .param("categoryId",categoryId))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("Please Login first to access this endpoint!")));
-//    }
-//
-//    @Test
-//    public void getAllQuestionsByUserNoAuthentication() throws Exception{
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", null);
+//    public void getAllQuestionsByUserNoAuthentication() throws Exception {
+//        session = new MockHttpSession ();
+//        session.setAttribute ( "currUser", null );
 //        String url = "/api/question/all";
-//        mvc.perform(get(url).session(session))
-//                .andExpect(status().is4xxClientError())
-//                .andExpect(content().string(containsString("Please Login first to access this endpoint!")));
+//        mvc.perform ( get ( url ).session ( session ) ).andExpect ( status ().is4xxClientError () ).andExpect ( content ().string ( containsString ( "Please Login first to access this endpoint!" ) ) );
 //    }
-//    @Test
+
+
+    //@Test
 //    public void getAllQuestionsByUserWithAuthentication() throws Exception{
 //        User user = new User();
 //        user.setUserName("upgrad");
@@ -110,34 +111,32 @@
 //                .andExpect(jsonPath("$", hasSize(1)))
 //                .andExpect(jsonPath("$[0].content", Matchers.is(question.getContent())));
 //    }
-//    @Test
-//    public void AllQuestionsByCategoryWthAuthentication() throws Exception{
-//        User user = new User();
-//        user.setUserName("upgrad");
-//        user.setRole("user");
-//        session = new MockHttpSession();
-//        session.setAttribute("currUser", user);
-//        Question question = new Question();
-//        question.setContent("what is the question?");
-//        question.setUser(user);
-//        Category category = new Category();
-//        category.setId(3);
-//        category.setTitle("Music");
-//        category.setDescription("This is the genre of Music");
-//        Set<Category> categories =new HashSet<>();
-//        categories.add(category);
-//        String categoryId = "3";
-//        question.setCategories(categories);
-//        List<Question> questions = singletonList(question);
-//        given(questionService.getAllQuestionsByCategory(3)).willReturn(questions);
-//        String url = "/api/question/all/3";
-//        mvc.perform(get(url).session(session)
-//                .param("categoryId",categoryId)
-//                .contentType(MediaType.asMediaType(APPLICATION_JSON)))
-//                .andExpect(status().is2xxSuccessful())
-//                .andExpect(jsonPath("$", hasSize(1)))
-//                .andExpect(jsonPath("$[0].content", Matchers.is(question.getContent())));
-//    }
+
+
+    @Test
+    public void AllQuestionsByCategoryWthAuthentication() throws Exception {
+        User user = new User ();
+        user.setUserName ( "upgrad" );
+        user.setRole ( "user" );
+        session = new MockHttpSession ();
+        session.setAttribute ( "currUser", user );
+        Question question = new Question ();
+        question.setContent ( "what is the question?" );
+        question.setUser ( user );
+        Category category = new Category ();
+        category.setId ( 3 );
+        category.setTitle ( "Music" );
+        category.setDescription ( "This is the genre of Music" );
+        Set <Category> categories = new HashSet <> ();
+        categories.add ( category );
+        String categoryId = "3";
+        question.setCategories ( categories );
+        List <Question> questions = singletonList ( question );
+        given ( questionService.getAllQuestionsByCategory ( 3 ) ).willReturn ( questions );
+        String url = "/api/question/all/3";
+        mvc.perform ( get ( url ).session ( session ).param ( "categoryId", categoryId ).contentType ( MediaType.asMediaType ( APPLICATION_JSON ) ) ).andExpect ( status ().is2xxSuccessful () ).andExpect ( jsonPath ( "$", hasSize ( 1 ) ) ).andExpect ( jsonPath ( "$[0].content", Matchers.is ( question.getContent () ) ) );
+    }
+
 //    @Test
 //    public void deleteQuestionWithNoAuthentication() throws Exception {
 //        session = new MockHttpSession();
@@ -202,4 +201,4 @@
 //                .andExpect(status().is2xxSuccessful())
 //                .andExpect(content().string(Matchers.containsString("Question with questionId 3 deleted successfully.")));
 //    }
-//}
+}
