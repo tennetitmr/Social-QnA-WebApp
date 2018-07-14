@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.model.User;
+import org.upgrad.services.NotificationService;
 import org.upgrad.services.UserProfileService;
 import org.upgrad.services.UserService;
 
@@ -22,6 +23,9 @@ public class UserController {
     private UserService userService;
     @Autowired
     private UserProfileService userProfileService;
+
+    @Autowired
+    private NotificationService notificationService;
 
     @PostMapping("/api/user/signup")
     public ResponseEntity <?> postUserSignup(@RequestParam("firstName") String firstName, String lastName, @RequestParam("userName") String userName, @RequestParam("email") String email, @RequestParam("password") String password, @RequestParam("country") String country, String aboutMe, @RequestParam("dob") String dateOfbirth, String contactNumber) {
@@ -92,5 +96,20 @@ public class UserController {
             }
         }
 
+    }
+
+    @GetMapping("/api/user/notification/all")
+    public ResponseEntity <?> getAllNotifications(HttpSession session) {
+
+        User currUser = (User) session.getAttribute ( "currUser" );
+
+        if (currUser == null) {
+
+            return new ResponseEntity <> ( "Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED );
+
+        } else {
+
+            return new ResponseEntity <> ( notificationService.getAllNotifications ( currUser.getId () ), HttpStatus.OK );
+        }
     }
 }
