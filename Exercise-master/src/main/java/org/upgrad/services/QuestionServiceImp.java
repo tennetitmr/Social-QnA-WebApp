@@ -11,4 +11,9 @@ public class QuestionServiceImp implements QuestionService {
     public List <Question> getAllQuestionsByCategory(Integer categoryId) {
         return null;
     }
+
+    @Override
+    public List <Question> getAllQuestions() {
+        return null;
+    }
 }
