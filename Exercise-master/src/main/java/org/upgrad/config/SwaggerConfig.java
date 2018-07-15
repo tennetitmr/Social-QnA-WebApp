@@ -3,6 +3,9 @@ package org.upgrad.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.upgrad.controller.AdminController;
+import org.upgrad.controller.AnswerController;
+import org.upgrad.controller.QuestionController;
 import org.upgrad.controller.UserController;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -12,7 +15,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @EnableSwagger2
-@ComponentScan(basePackageClasses = UserController.class)
+@ComponentScan(basePackageClasses = {UserController.class, AdminController.class, QuestionController.class, AnswerController.class})
 @Configuration
 public class SwaggerConfig {
 

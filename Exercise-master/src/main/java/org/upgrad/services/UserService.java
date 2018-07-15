@@ -10,4 +10,7 @@ public interface UserService {
     String findUserByEmail(String email);
     String findUserPassword(String userName);
     String findUserRole(String userName);
+    String findUserById(int id);
+    int findUserIdByName(String userName);
+    void deleteUserDetailsById(int userId);
 }

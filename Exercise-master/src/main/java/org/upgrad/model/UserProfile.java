@@ -11,10 +11,14 @@ public class UserProfile {
     @Id
     private int id;
     private int user_id;
+    @Column(name="firstname")
     private String firstName;
+    @Column(name="lastname")
     private String lastName;
+    @Column(name="aboutme")
     private String aboutMe;
     private Date dob = new Date();
+    @Column(name="contactnumber")
     private String contactNumber;
     private String country;
 

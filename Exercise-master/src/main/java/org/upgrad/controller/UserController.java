@@ -7,11 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.upgrad.model.User;
-import org.upgrad.model.UserProfile;
-import org.upgrad.repository.UserProfileRepository;
 import org.upgrad.services.UserProfileService;
 import org.upgrad.services.UserService;
-
 import javax.servlet.http.HttpSession;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,10 +17,25 @@ import java.util.Date;
 @RestController
 public class UserController {
 
+    /*
+    * This UserService consist of all the implementations of business logic related to user login information of the app and
+    * interact with repositories to access/store data in the database.
+     */
     @Autowired
     private UserService userService;
+
+    /*
+     * This UserProfileService consist of all the implementations of business logic related to user information other than login
+     * of the app and interact with repositories to access/store data in the database.
+     */
     @Autowired
     private UserProfileService userProfileService;
+
+    /*
+    * This signup endpoint implemented to register into the app.
+    * lastName,aboutme,contact numbers are optional parameters to register
+    * Also by default from the app registered user role is a 'user' & cant be 'admin'
+     */
 
     @PostMapping("/api/user/signup")
     public ResponseEntity<?> postUserSignup(@RequestParam("firstName") String firstName, String lastName, @RequestParam("userName") String userName,
@@ -37,7 +49,7 @@ public class UserController {
                     .hashString(password, Charsets.US_ASCII)
                     .toString();
 
-            Date dob= null;
+            Date dob = null;
             try {
                 dob = new SimpleDateFormat("yyyy-MM-dd").parse(dateOfbirth);
             } catch (ParseException e) {
@@ -47,7 +59,7 @@ public class UserController {
             int id = userService.findUserId();
             userProfileService.addUserProfileDetails(id,firstName,lastName,aboutMe,dob,contactNumber,country);
             return new ResponseEntity<>(userName + " successfully registered", HttpStatus.OK);
-       }  else if (userNameResult.equals(userName)){
+       }  else if (userNameResult.equals(userName)) {
                    return new ResponseEntity<>("Try any other Username, this Username has already been taken.",HttpStatus.FORBIDDEN);
         }
        else if (emailResult.equals(email)) {
@@ -57,6 +69,11 @@ public class UserController {
             return new ResponseEntity<>("",HttpStatus.NOT_ACCEPTABLE);
         }
     }
+
+    /*
+    * This login endpoint is implemented to login into the app with username and password
+    *  It checks for role whether login as admin or user
+     */
 
     @PostMapping("/api/user/login")
     public ResponseEntity<?> postUserSignin(@RequestParam("userName") String userName,@RequestParam("password") String password,HttpSession session){
@@ -68,7 +85,7 @@ public class UserController {
         if (!(passwordByUser.equalsIgnoreCase(sha256hex))) {
             return new ResponseEntity<>("Invalid Credentials", HttpStatus.UNAUTHORIZED);
         }
-        else if (String.valueOf(userService.findUserRole(userName)).equalsIgnoreCase("admin")){
+        else if (String.valueOf(userService.findUserRole(userName)).equalsIgnoreCase("admin")) {
             User user = new User(userName);
             session.setAttribute("currUser",user);
             return new ResponseEntity<>("You have logged in as admin!",HttpStatus.OK);
@@ -80,8 +97,13 @@ public class UserController {
         }
     }
 
+    /*
+    * This endpoint is implemented to logout from the app
+    * It checks if user session exists or not , if it is then logout from the app
+     */
+
     @PostMapping("/api/user/logout")
-    public ResponseEntity<String> postUserSignout(HttpSession session){
+    public ResponseEntity<String> postUserSignout(HttpSession session) {
         if (session.getAttribute("currUser") == null) return new ResponseEntity<>("You are currently not logged in",HttpStatus.UNAUTHORIZED);
         else {
             session.removeAttribute("currUser");
@@ -89,11 +111,16 @@ public class UserController {
         }
     }
 
+    /*
+    * This end point is implemented to get the user details other than username and password
+    * if user exists then it display the user profile details
+     */
+
     @GetMapping("/api/user/userprofile/{userId}")
     public ResponseEntity<?> getUserProfile(@PathVariable("userId") int id, HttpSession session) {
 
         if (session.getAttribute("currUser") == null) {
-            return new ResponseEntity<>("Please Login first to access this endpoint", HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>("Please Login first to access this endpoint!", HttpStatus.UNAUTHORIZED);
         }
         else {
 

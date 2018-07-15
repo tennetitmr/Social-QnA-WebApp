@@ -1,17 +1,24 @@
 package org.upgrad.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.util.Date;
 
 @Entity
 public class Question {
 
     @Id
+    @Column(insertable=false,updatable = false)
     private int id;
     private String content;
     private Date date;
+    @Column(insertable=false,updatable = false)
     private int user_id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JsonIgnore
+    private User user;
 
     public Question() {}
 
@@ -53,4 +60,8 @@ public class Question {
     public void setUser_id(int user_id) {
         this.user_id = user_id;
     }
+
+    public User getUser() { return user; }
+
+    public void setUser(User user) { this.user = user; }
 }

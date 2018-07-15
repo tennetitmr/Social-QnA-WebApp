@@ -23,6 +23,12 @@ public interface UserRepository extends CrudRepository<User,Integer> {
         @Query(nativeQuery = true,value=" SELECT userName from users WHERE UPPER(userName)= UPPER(?1)")
         String findUserByName(String userName);
 
+        @Query(nativeQuery = true,value=" SELECT id from users WHERE UPPER(userName)= UPPER(?1)")
+        int findUserIdByUname(String userName);
+
+        @Query(nativeQuery = true,value=" SELECT userName from users WHERE id = ?1")
+        String findUserById(int userId);
+
         @Query(nativeQuery = true,value = "SELECT email from users WHERE UPPER(email) = UPPER(?1)")
         String findUserByEmailId(String email);
 
@@ -31,5 +37,11 @@ public interface UserRepository extends CrudRepository<User,Integer> {
 
         @Query(nativeQuery = true,value = "SELECT role from users WHERE UPPER(userName) = UPPER(?1)")
         String findUserRoleByName(String userName);
+
+
+        @Transactional
+        @Modifying
+        @Query(nativeQuery = true,value="DELETE FROM users WHERE id = ?1")
+        void deleteUserDetails(int userId);
 
 }

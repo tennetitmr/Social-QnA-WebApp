@@ -1,5 +1,6 @@
 package org.upgrad.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import java.util.Date;
@@ -10,20 +11,21 @@ public class Answer {
     @Id
     private int id;
     private String ans;
-    private Date date;
+    private Date date = new Date();
     private int user_id;
     private int question_id;
-    private Date modifiedOn;
+    @Column(name = "modifiedon")
+    private Date modified_on = new Date();
 
     public Answer() {}
 
-    public Answer(int id, String ans, Date date, int user_id, int question_id, Date modifiedOn) {
+    public Answer(int id, String ans, Date date, int user_id, int question_id, Date modified_on) {
         this.id = id;
         this.ans = ans;
         this.date = date;
         this.user_id = user_id;
         this.question_id = question_id;
-        this.modifiedOn = modifiedOn;
+        this.modified_on = modified_on;
     }
 
     public int getId() {
@@ -67,10 +69,10 @@ public class Answer {
     }
 
     public Date getModifiedOn() {
-        return modifiedOn;
+        return modified_on;
     }
 
     public void setModifiedOn(Date modifiedOn) {
-        this.modifiedOn = modifiedOn;
+        this.modified_on = modified_on;
     }
 }
