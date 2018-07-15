@@ -15,10 +15,11 @@ public class Notification {
     private Date date;
     private boolean read;
 
-    public Notification() { }
+    public Notification() {
+    }
 
     public Notification(int id, int user_id, String message, Date date, boolean read) {
-        super();
+        super ();
         this.id = id;
         this.user_id = user_id;
         this.message = message;

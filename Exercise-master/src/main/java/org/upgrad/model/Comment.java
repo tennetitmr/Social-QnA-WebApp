@@ -15,10 +15,11 @@ public class Comment {
     private int answer_id;
     private Date modifiedOn;
 
-    public Comment() { }
+    public Comment() {
+    }
 
     public Comment(int id, String content, Date date, int user_id, int answer_id, Date modifiedOn) {
-        super();
+        super ();
         this.id = id;
         this.content = content;
         this.date = date;

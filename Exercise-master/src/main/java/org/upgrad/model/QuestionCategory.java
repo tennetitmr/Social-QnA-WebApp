@@ -11,10 +11,11 @@ public class QuestionCategory {
     private int question_id;
     private int category_id;
 
-    public QuestionCategory() { }
+    public QuestionCategory() {
+    }
 
     public QuestionCategory(int id, int question_id, int category_id) {
-        super();
+        super ();
         this.id = id;
         this.question_id = question_id;
         this.category_id = category_id;

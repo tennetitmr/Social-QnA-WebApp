@@ -15,7 +15,8 @@ public class Answer {
     private int question_id;
     private Date modifiedOn;
 
-    public Answer() {}
+    public Answer() {
+    }
 
     public Answer(int id, String ans, Date date, int user_id, int question_id, Date modifiedOn) {
         this.id = id;
