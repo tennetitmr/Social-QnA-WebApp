@@ -1,7 +1,9 @@
 package org.upgrad.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class User {
@@ -12,6 +14,13 @@ public class User {
     private String email;
     private String password;
     private String role;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+    private List <Question> questions;
+
+    @OneToMany
+    @JsonIgnore
+    private List <Answer> answers;
 
     public User() {
     }
@@ -68,5 +77,13 @@ public class User {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public List <Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List <Question> questions) {
+        this.questions = questions;
     }
 }

@@ -1,7 +1,6 @@
 package org.upgrad.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
@@ -12,18 +11,21 @@ public class Question {
     private int id;
     private String content;
     private Date date;
-    private int user_id;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private User user;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set <Category> categories;
 
     public Question() {
     }
 
-    public Question(int id, String content, Date date, int user_id) {
+    public Question(int id, String content, Date date) {
         this.id = id;
         this.content = content;
         this.date = date;
-        this.user_id = user_id;
+
     }
 
     public int getId() {
@@ -50,13 +52,7 @@ public class Question {
         this.date = date;
     }
 
-    public int getUser_id() {
-        return user_id;
-    }
 
-    public void setUser_id(int user_id) {
-        this.user_id = user_id;
-    }
 
     public User getUser() {
         return user;
