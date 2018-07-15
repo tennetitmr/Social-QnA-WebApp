@@ -9,6 +9,6 @@ import org.springframework.cache.annotation.EnableCaching;
 public class quora {
 
     public static void main(String[] args) {
-        SpringApplication.run(quora.class, args);
+        SpringApplication.run ( quora.class, args );
     }
 }
