@@ -1,7 +1,10 @@
 package org.upgrad.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -13,10 +16,12 @@ public class Question {
     private Date date;
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private User user;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Set <Category> categories;
+    @JoinTable(name = "question_category", joinColumns = {@JoinColumn(name = "question_id")}, inverseJoinColumns = {@JoinColumn(name = "category_id")})
+    private Set <Category> categories = new HashSet <> ();
 
     public Question() {
     }
@@ -51,8 +56,6 @@ public class Question {
     public void setDate(Date date) {
         this.date = date;
     }
-
-
 
     public User getUser() {
         return user;

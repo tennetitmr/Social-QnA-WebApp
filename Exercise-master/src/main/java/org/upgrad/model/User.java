@@ -3,20 +3,23 @@ package org.upgrad.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Table(name = "users")
 public class User {
 
     @Id
     private int id;
+    @Column(name = "username")
     private String userName;
     private String email;
     private String password;
     private String role;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
-    private List <Question> questions;
+    private List <Question> questions = new ArrayList <> ();
 
     @OneToMany
     @JsonIgnore
@@ -85,5 +88,13 @@ public class User {
 
     public void setQuestions(List <Question> questions) {
         this.questions = questions;
+    }
+
+    public List <Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List <Answer> answers) {
+        this.answers = answers;
     }
 }
